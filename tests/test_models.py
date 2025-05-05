@@ -13,3 +13,8 @@ def test_span_model():
     entities = model.predict_entities(text, labels)
 
     assert len(entities) > 0
+
+if __name__ == '__main__':
+    print('hi')
+    test_span_model()
+    print('ho')

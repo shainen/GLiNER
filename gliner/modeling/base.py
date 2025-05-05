@@ -20,6 +20,7 @@ class GLiNERModelOutput(ModelOutput):
     loss: Optional[torch.FloatTensor] = None
     logits: Optional[torch.FloatTensor] = None
     prompts_embedding: Optional[torch.FloatTensor] = None
+    span_rep: Optional[torch.FloatTensor] = None
     prompts_embedding_mask: Optional[torch.LongTensor] = None
     words_embedding: Optional[torch.FloatTensor] = None
     mask: Optional[torch.LongTensor] = None
@@ -249,6 +250,7 @@ class SpanModel(BaseModel):
             logits=scores,
             loss=loss,
             prompts_embedding=prompts_embedding,
+            span_rep=span_rep,
             prompts_embedding_mask=prompts_embedding_mask,
             words_embedding=words_embedding,
             mask=mask,

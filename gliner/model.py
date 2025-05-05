@@ -267,7 +267,8 @@ class GLiNER(nn.Module, PyTorchModelHubMixin):
 
         model_input, raw_batch = self.prepare_model_inputs(texts, labels)
 
-        model_output = self.model(**model_input)[0]
+        model_outputs = self.model(**model_input)
+        model_output = model_outputs[0]
 
         if not isinstance(model_output, torch.Tensor):
             model_output = torch.from_numpy(model_output)
@@ -291,6 +292,7 @@ class GLiNER(nn.Module, PyTorchModelHubMixin):
             for start_token_idx, end_token_idx, ent_type, ent_score in output:
                 start_text_idx = start_token_idx_to_text_idx[start_token_idx]
                 end_text_idx = end_token_idx_to_text_idx[end_token_idx]
+                span_vec = model_outputs['span_rep'][0,start_token_idx,end_token_idx-start_token_idx]
                 entities.append(
                     {
                         "start": start_token_idx_to_text_idx[start_token_idx],
@@ -298,6 +300,7 @@ class GLiNER(nn.Module, PyTorchModelHubMixin):
                         "text": texts[i][start_text_idx:end_text_idx],
                         "label": ent_type,
                         "score": ent_score,
+                        "span_vec": span_vec,
                     }
                 )
             all_entities.append(entities)
